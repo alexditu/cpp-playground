@@ -4,9 +4,16 @@
 #include <string-utils.h>
 #include <deque>
 
+#include <json_utils.h>
+
 struct CustomTask {
 	std::string id;
 	std::string value;
+
+	bool operator==(const CustomTask& other)
+	{
+		return id == other.id;
+	}
 };
 
 int main()
@@ -15,15 +22,9 @@ int main()
 
 	spdlog::debug("hello");
 
-	std::deque<CustomTask> q;
+	auto j = utils::test();
 
-	q.push_back({"aaa", "x"});
-	q.push_back({"bbb", "x"});
-	q.push_back({"aaa", "x"});
-
-	spdlog::debug("q: {}", utils::to_string(q, ", ", [](const CustomTask& t) {
-		              return "id: " + t.id + ", value: " + t.value;
-	              }));
+	spdlog::debug("recv j: {}", j.dump());
 
 	return 0;
 }
